@@ -18,9 +18,11 @@ export default function Auth({ onLogin }: AuthProps) {
     setError('');
     setLoading(true);
 
-    const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+    const endpoint = isLogin ? '/auth/login' : '/auth/register';
+    const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/api${endpoint}`;
+
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -28,6 +30,9 @@ export default function Auth({ onLogin }: AuthProps) {
       const data = await res.json();
       if (data.success) {
         localStorage.setItem('c4_user', JSON.stringify(data.user));
+        if (data.session) {
+          localStorage.setItem('c4_session', JSON.stringify(data.session));
+        }
         onLogin(data.user);
       } else {
         setError(data.error || 'Something went wrong');

@@ -5,39 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Settings, 
-  Play, 
-  RotateCcw, 
-  Cpu, 
-  User as UserIcon, 
-  ChevronRight, 
-  Activity,
-  Trophy,
-  Brain,
-  Database,
-  Eye,
-  LayoutGrid,
-  Binary,
-  ArrowRight,
-  Zap,
-  Target,
-  Upload,
-  FileText,
-  Copy,
-  Check,
-  Search,
-  Users,
-  Shield,
-  LogOut,
-  Clock,
-  ChevronLeft,
-  Star,
-  AlertTriangle,
-  HelpCircle,
-  XCircle,
-  History
-} from 'lucide-react';
+import { Settings, Play, RotateCcw, Cpu, User as UserIcon, ChevronRight, Activity, Trophy, Brain, Database, Eye, LayoutGrid, Binary, ArrowRight, Zap, Target, Upload, FileText, Copy, Check, Search, Users, Shield, LogOut, Clock, ChevronLeft, Star, TriangleAlert as AlertTriangle, Circle as HelpCircle, Circle as XCircle, History } from 'lucide-react';
 import { Board as BoardType, Player, ROWS, COLS, GameState, AIConfig, ParallelGameState } from './types';
 import { 
   createEmptyBoard, 
@@ -141,7 +109,8 @@ export default function App() {
       setLastMoveAt(Date.now() + serverOffset);
     }
     try {
-      const res = await fetch('/api/user/update-avatar', {
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/api/user/update`;
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, avatarId }),
@@ -175,7 +144,8 @@ export default function App() {
 
   const fetchLeaderboard = useCallback(async () => {
     try {
-      const res = await fetch('/api/leaderboard');
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/api/leaderboard`;
+      const res = await fetch(apiUrl);
       const data = await res.json();
       setLeaderboard(data);
     } catch (err) {
@@ -376,7 +346,8 @@ export default function App() {
   const updateUsername = async () => {
     if (!user || !newUsername.trim()) return;
     try {
-      const res = await fetch('/api/user/update-username', {
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/api/user/update`;
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, newUsername }),
