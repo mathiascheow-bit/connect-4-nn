@@ -1,0 +1,5 @@
+{
+  "name": "Remix: Connect 4 Neural AI v3",
+  "description": "A Connect 4 game with a neural network-based AI player and a high-performance Trainer bot.",
+  "requestFramePermissions": []
+}
